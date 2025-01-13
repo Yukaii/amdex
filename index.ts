@@ -74,14 +74,14 @@ async function parseAMDModules(content: string): Promise<AMDModule[]> {
   function walk(node: Node): void {
     if (
       node.type === 'CallExpression' &&
-      node.callee.type === 'Identifier' &&
-      node.callee.name === 'define'
+      (node as any).callee.type === 'Identifier' &&
+      (node as any).callee.name === 'define'
     ) {
-      const args = node.arguments;
+      const args = (node as any).arguments;
       if (args.length >= 3) {  // Make sure we have a factory function
         const moduleId = args[0].type === 'Literal' ? String(args[0].value) : null;
         const dependencies = args[1].type === 'ArrayExpression'
-          ? args[1].elements.map(el =>
+          ? args[1].elements.map((el: any) =>
               el.type === 'Literal' ? String(el.value) : ''
             ).filter(Boolean)
           : [];
