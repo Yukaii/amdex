@@ -1,6 +1,6 @@
 {
   "name": "amdex",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A tool to extract and restore AMD-style JavaScript modules",
   "module": "index.ts",
   "type": "module",
