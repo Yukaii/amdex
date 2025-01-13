@@ -8,7 +8,7 @@
     "amdex": "./dist/cli.js"
   },
   "scripts": {
-    "build": "bun build ./cli.ts --outdir ./dist --format cjs",
+    "build": "bun build ./cli.js --outdir ./dist",
     "prepare": "npm run build",
     "start": "node dist/cli.js"
   },
