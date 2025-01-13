@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import { Parser, type Node, type CallExpression } from 'acorn';
-import { ensureDir, readFile, writeFile } from 'fs-extra';
 import path from 'path';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import glob from 'fast-glob';
 
 interface RestoreOptions {
@@ -58,6 +58,16 @@ program
       process.exit(1);
     }
   });
+
+async function ensureDir(dir: string): Promise<void> {
+  try {
+    await mkdir(dir, { recursive: true });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'EEXIST') {
+      throw error;
+    }
+  }
+}
 
 async function parseAMDModules(content: string): Promise<AMDModule[]> {
   const parser = Parser.extend();
@@ -126,7 +136,7 @@ async function parseAMDModules(content: string): Promise<AMDModule[]> {
 }
 
 async function restoreModules({ input, include, exclude, output }: RestoreOptions): Promise<void> {
-  const content = await readFile(input, 'utf-8');
+  const content = await readFile(input, { encoding: 'utf-8' });
   const modules = await parseAMDModules(content);
 
   // Filter modules based on include/exclude patterns
@@ -157,13 +167,13 @@ async function restoreModules({ input, include, exclude, output }: RestoreOption
 ${module.functionBody ? module.functionBody.split('\n').map(line => '  ' + line).join('\n') : '  // No function body found'}
 });`;
 
-    await writeFile(modulePath, moduleContent);
+    await writeFile(modulePath, moduleContent, { encoding: 'utf-8' });
     console.log(`Restored module: ${module.id}`);
   }
 }
 
 async function listModules({ input }: ListOptions): Promise<void> {
-  const content = await readFile(input, 'utf-8');
+  const content = await readFile(input, { encoding: 'utf-8' });
   const modules = await parseAMDModules(content);
 
   modules.forEach(module => {
