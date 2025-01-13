@@ -23,43 +23,6 @@ interface AMDModule {
   functionBody?: string;
 }
 
-// Configure the CLI program
-const program = new Command()
-  .name('amdex')
-  .description('CLI tool to restore AMD-style bundles')
-  .version('1.0.0');
-
-// Define the restore command
-program
-  .command('restore')
-  .description('Restore AMD modules from a bundled file')
-  .requiredOption('-i, --input <path>', 'Input file path')
-  .option('--include <pattern>', 'Include module pattern (glob or regex)')
-  .option('--exclude <pattern>', 'Exclude module pattern')
-  .option('-o, --output <path>', 'Output folder path', './restored')
-  .action(async (options: RestoreOptions) => {
-    try {
-      await restoreModules(options);
-    } catch (err) {
-      console.error('Error:', err instanceof Error ? err.message : String(err));
-      process.exit(1);
-    }
-  });
-
-// Define the list command
-program
-  .command('list')
-  .description('List all possible module paths')
-  .requiredOption('-i, --input <path>', 'Input file path')
-  .action(async (options: ListOptions) => {
-    try {
-      await listModules(options);
-    } catch (err) {
-      console.error('Error:', err instanceof Error ? err.message : String(err));
-      process.exit(1);
-    }
-  });
-
 async function ensureDir(dir: string): Promise<void> {
   try {
     await mkdir(dir, { recursive: true });

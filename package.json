@@ -8,9 +8,9 @@
     "amdex": "./dist/cli.mjs"
   },
   "scripts": {
-    "build": "bun build ./cli.js --outfile=./dist/cli.mjs",
+    "build": "rm -rf ./dist && bun build ./cli.js --target=node --outfile=./dist/cli.mjs && chmod +x ./dist/cli.mjs",
     "prepare": "npm run build",
-    "start": "node dist/cli.mjs"
+    "start": "node cli.js"
   },
   "files": [
     "dist",
