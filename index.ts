@@ -3,6 +3,7 @@ import { Parser, type Node, type CallExpression } from 'acorn';
 import path from 'path';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import glob from 'fast-glob';
+import process from 'node:process';
 
 interface RestoreOptions {
   input: string;

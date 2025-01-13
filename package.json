@@ -5,12 +5,12 @@
   "module": "index.ts",
   "type": "module",
   "bin": {
-    "amdex": "./dist/cli.js"
+    "amdex": "./dist/cli.mjs"
   },
   "scripts": {
-    "build": "bun build ./cli.js --outdir ./dist",
+    "build": "bun build ./cli.js --outfile=./dist/cli.mjs",
     "prepare": "npm run build",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.mjs"
   },
   "files": [
     "dist",
