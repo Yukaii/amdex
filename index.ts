@@ -147,5 +147,4 @@ async function listModules({ input }: ListOptions): Promise<void> {
   });
 }
 
-// Export the program for external use
-export { program, parseAMDModules, restoreModules, listModules };
+export { parseAMDModules, restoreModules, listModules };
